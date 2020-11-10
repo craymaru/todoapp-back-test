@@ -2,7 +2,7 @@ from chalice import Chalice
 from chalice import BadRequestError, NotFoundError
 from chalicelib import database
 
-app = Chalice(app_name='todo_back')
+app = Chalice(app_name='todo-back')
 
 
 @app.route('/todos', methods=['GET'], cors=True)
