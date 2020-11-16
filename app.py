@@ -1,9 +1,22 @@
+import os
+
 from chalice import Chalice
 from chalice import BadRequestError, NotFoundError
+from chalice import CognitoUserPoolAuthorizer
+
 from chalicelib import database
 
 app = Chalice(app_name='todo-back')
 app.debug = True
+
+authorizer = CognitoUserPoolAuthorizer(
+    'ToDoAppUserPool', provider_arns=[os.environ['USER_POOL_ARN']]
+)
+
+@app.route('/', methods=['GET'], authorizer=authorizer)
+def authed_index():
+    # print(os.environ['USER_POOL_ARN'])
+    return {'success': True}
 
 
 @app.route('/todos', methods=['GET'], cors=True)
