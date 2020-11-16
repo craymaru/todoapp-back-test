@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: ToDoAppUserPool
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: True
+          RequireUppercase: True
+          RequireNumbers: False
+          RequireSymbols: False
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: True
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: ToDoAppPoolClient
+      UserPoolId: !Ref CognitoUserPool
+      GenerateSecret: False
+Outputs:
+  CognitoUserPoolArn:
+    Value: !GetAtt CognitoUserPool.Arn
